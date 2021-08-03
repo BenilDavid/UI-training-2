@@ -4,31 +4,128 @@
 	color: #555;
 	font-weight: 600;
 	text-transform: uppercase;
-	font-size: 0.8em;
+	font-size: 0.9em;
 	margin: 20px 0px;
 }
 
+@mixin rangeSlider {
+	input[type='range'] {
+		height: 32px;
+		-webkit-appearance: none;
+		margin: 10px 0;
+		width: 100%;
+	}
+	input[type='range']:focus {
+		outline: none;
+	}
+	input[type='range']::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 6px;
+		cursor: pointer;
+		animate: 0.2s;
+		box-shadow: 1px 1px 1px #e0e0e0;
+		background: #f0f0f0;
+		border-radius: 5px;
+		border: 1px solid #e0e0e0;
+	}
+	input[type='range']::-webkit-slider-thumb {
+		box-shadow: 1px 1px 1px #e0e0e0;
+		border: 1px solid #e0e0e0;
+		height: 24px;
+		width: 24px;
+		border-radius: 19px;
+		background: #e0e0e0;
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: -10px;
+	}
+	input[type='range']:focus::-webkit-slider-runnable-track {
+		background: #f0f0f0;
+	}
+	input[type='range']::-moz-range-track {
+		width: 100%;
+		height: 6px;
+		cursor: pointer;
+		animate: 0.2s;
+		box-shadow: 1px 1px 1px #e0e0e0;
+		background: #f0f0f0;
+		border-radius: 5px;
+		border: 1px solid #e0e0e0;
+	}
+	input[type='range']::-moz-range-thumb {
+		box-shadow: 1px 1px 1px #e0e0e0;
+		border: 1px solid #e0e0e0;
+		height: 24px;
+		width: 24px;
+		border-radius: 19px;
+		background: #e0e0e0;
+		cursor: pointer;
+	}
+	input[type='range']::-ms-track {
+		width: 100%;
+		height: 6px;
+		cursor: pointer;
+		animate: 0.2s;
+		background: transparent;
+		border-color: transparent;
+		color: transparent;
+	}
+	input[type='range']::-ms-fill-lower {
+		background: #f0f0f0;
+		border: 1px solid #e0e0e0;
+		border-radius: 10px;
+		box-shadow: 1px 1px 1px #e0e0e0;
+	}
+	input[type='range']::-ms-fill-upper {
+		background: #f0f0f0;
+		border: 1px solid #e0e0e0;
+		border-radius: 10px;
+		box-shadow: 1px 1px 1px #e0e0e0;
+	}
+	input[type='range']::-ms-thumb {
+		margin-top: 1px;
+		box-shadow: 1px 1px 1px #e0e0e0;
+		border: 1px solid #e0e0e0;
+		height: 24px;
+		width: 24px;
+		border-radius: 19px;
+		background: #e0e0e0;
+		cursor: pointer;
+	}
+	input[type='range']:focus::-ms-fill-lower {
+		background: #f0f0f0;
+	}
+	input[type='range']:focus::-ms-fill-upper {
+		background: #f0f0f0;
+	}
+}
 body {
 	box-sizing: border-box;
 	font-family: 'Roboto' !important;
 }
 .header {
+	max-width: 1450px;
+	margin: auto auto;
 	padding: 20px 20px;
 	height: 100px;
 	.container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		max-width: 1500px;
-		margin: auto auto;
+
 		.product-logo {
+			color: #303030;
 			font-weight: 700;
-			font-size: 1.8em;
+			font-size: 2em;
 			text-align: left;
 			display: inline;
 		}
 		.add-product {
+			background: linear-gradient(to right, rgb(252, 133, 36), rgb(255, 30, 0));
 			font-size: 1.3em;
+			color: #fff;
+			border-radius: 5px;
+			border: 1px solid rgb(189, 4, 4);
 			padding: 10px 35px;
 			text-align: right;
 			display: inline;
@@ -36,18 +133,19 @@ body {
 	}
 }
 .main {
+	max-width: 1450px;
+	margin: auto auto;
 	.container {
 		display: grid;
 		grid-template-columns: 20% 80%;
-		max-width: 1500px;
-		margin: auto auto;
+
 		.left-sidebar {
 			.categories {
 				.sidebar-heading {
 					@include sidebar-heading();
 				}
 				ul {
-					background-color: #eaeaea;
+					background-color: #f4f4f4;
 					padding: 20px 10px;
 					margin: 0;
 					li {
@@ -78,15 +176,26 @@ body {
 				.sidebar-heading {
 					@include sidebar-heading();
 				}
-				input[type='range'] {
-					width: 100%;
-				}
+				@include rangeSlider();
+				// input[type='range'] {
+				// 	width: 100%;
+				// 	// height: 40px;
+				// 	// background-color: #555;
+				// }
 				.filter-btn-price {
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
 					margin: 10px 0px;
 					.filter-btn {
+						background: linear-gradient(
+							to right,
+							rgb(252, 133, 36),
+							rgb(255, 30, 0)
+						);
+						color: #fff;
+						border-radius: 5px;
+						border: 1px solid rgb(189, 4, 4);
 						font-weight: 600;
 						font-size: 0.9em;
 						padding: 4px 20px;
@@ -126,6 +235,11 @@ body {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+				.sort-button {
+					width: 180px;
+					text-align: left;
+					padding: 10px 10px;
+				}
 				.showing-card {
 					font-size: 0.9em;
 				}
@@ -153,11 +267,13 @@ body {
 						justify-content: center;
 						align-items: center;
 						.product-name {
+							margin: 5px 0px;
 							font-weight: 600;
 							font-size: 1.2em;
 							text-align: center;
 						}
 						.product-price {
+							margin: 5px 0px;
 							text-align: center;
 						}
 					}

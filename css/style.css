@@ -95,9 +95,15 @@ body {
   }
 }
 
-@media (max-width: 800px) and (min-width: 300px) {
+@media (max-width: 800px) {
   .header .container .modal .modal-content {
     width: 75%;
+  }
+}
+
+@media (max-width: 500px) {
+  .header .container .modal .modal-content {
+    width: 85%;
   }
 }
 
@@ -109,6 +115,12 @@ body {
 
 .header .container .modal .modal-content .modal-header h2 {
   font-size: 2.2em;
+}
+
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-header h2 {
+    font-size: 1.8em;
+  }
 }
 
 .header .container .modal .modal-content .modal-header .close {
@@ -154,19 +166,38 @@ body {
   font-size: 1em;
 }
 
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-body .product-category .product-category-name {
+    margin-top: 10px;
+  }
+}
+
 .header .container .modal .modal-content .modal-body .product-category .select-product-category {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   border: none;
   background-color: #f0f0f0;
   color: #888;
   margin: 10px 0px;
   width: 100%;
   padding: 15px 20px;
+  background-image: url(../images/down-arrow.png);
+  background-repeat: no-repeat;
+  background-position: right 8% bottom 50%;
+  background-size: 15px;
 }
 
 .header .container .modal .modal-content .modal-body .product-title .product-title-name {
   font-weight: 500;
   margin-top: 15px;
   font-size: 1em;
+}
+
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-body .product-title .product-title-name {
+    margin-top: 10px;
+  }
 }
 
 .header .container .modal .modal-content .modal-body .product-title .title {
@@ -183,6 +214,12 @@ body {
   font-size: 1em;
 }
 
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-body .product-price .product-price-name {
+    margin-top: 10px;
+  }
+}
+
 .header .container .modal .modal-content .modal-body .product-price .price {
   width: 100%;
   border: none;
@@ -195,6 +232,12 @@ body {
   margin-top: 15px;
 }
 
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-body .product-top {
+    margin-top: 10px;
+  }
+}
+
 .header .container .modal .modal-content .modal-body .product-top .product-top-name {
   font-weight: 500;
   font-size: 1em;
@@ -202,6 +245,12 @@ body {
 
 .header .container .modal .modal-content .modal-body .product-image {
   margin-top: 15px;
+}
+
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-body .product-image {
+    margin-top: 10px;
+  }
 }
 
 .header .container .modal .modal-content .modal-body .product-image .product-image-name {
@@ -225,6 +274,12 @@ body {
 
 .header .container .modal .modal-content .modal-footer {
   padding: 30px 0px;
+}
+
+@media (max-width: 500px) {
+  .header .container .modal .modal-content .modal-footer {
+    padding: 20px 0px;
+  }
 }
 
 .header .container .modal .modal-content .modal-footer .footer-cancel-save-container {

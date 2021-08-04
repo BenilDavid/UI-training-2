@@ -7,11 +7,52 @@
 		<title>E-commerce Website</title>
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
+	<style></style>
 	<body>
 		<header class="header">
 			<div class="container">
 				<div class="product-logo">Products</div>
-				<button class="add-product">Add Product</button>
+				<button id="myBtn" class="add-product">Add Product</button>
+				<!-- The Modal -->
+				<div id="myModal" class="modal">
+					<!-- Modal content -->
+					<div class="modal-content">
+						<div class="modal-header">
+							<span class="close">&times;</span>
+							<h2>Add Product</h2>
+						</div>
+						<div class="modal-body">
+							<div class="product-category">
+								<div class="product-category-name">product Category</div>
+								<select class="select-product-category" name="" id="">
+									<option value="Select">Select</option>
+								</select>
+							</div>
+							<div class="product-title">
+								<div class="product-title-name">product Title</div>
+								<input
+									class="title"
+									type="text"
+									placeholder="Enter Product Tilte"
+								/>
+							</div>
+							<div class="product-price">
+								<div class="product-price-name">Price</div>
+								<input class="price" type="text" placeholder="Enter Price" />
+							</div>
+							<div class="product-image">
+								<div class="product-image-name">Price</div>
+								<button class="upload">Upload</button>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="footer-cancel-save-container">
+								<button class="cancel">CANCEL</button>
+								<button class="save">SAVE</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</header>
 		<main class="main">
@@ -51,7 +92,9 @@
 				<div class="main-product-listing">
 					<div class="top-sort">
 						<span class="showing-card">Showing 1-8 of 9 results</span>
-						<button class="sort-button" type="text">Default Sorting</button>
+						<select class="sort-button">
+							<option value="">Default Sorting</option>
+						</select>
 					</div>
 					<div class="product-listing">
 						<div class="product-card">
@@ -151,5 +194,33 @@
 				</div>
 			</div>
 		</main>
+
+		<script>
+			// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the button that opens the modal
+			var btn = document.getElementById('myBtn');
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName('close')[0];
+
+			// When the user clicks the button, open the modal
+			btn.onclick = function () {
+				modal.style.display = 'block';
+			};
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function () {
+				modal.style.display = 'none';
+			};
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function (event) {
+				if (event.target == modal) {
+					modal.style.display = 'none';
+				}
+			};
+		</script>
 	</body>
 </html>

@@ -460,6 +460,12 @@ body {
 }
 
 @media (max-width: 800px) and (min-width: 300px) {
+  .main .container .left-sidebar .filter-by-price {
+    margin: 0px 25px;
+  }
+}
+
+@media (max-width: 800px) and (min-width: 300px) {
   .main .container .left-sidebar .related-products {
     display: none;
   }
@@ -499,6 +505,12 @@ body {
 
 .main .container .main-product-listing {
   margin-left: 30px;
+}
+
+@media (max-width: 800px) and (min-width: 300px) {
+  .main .container .main-product-listing {
+    margin-left: 0px;
+  }
 }
 
 .main .container .main-product-listing .top-sort {

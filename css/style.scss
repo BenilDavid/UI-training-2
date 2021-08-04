@@ -310,6 +310,7 @@ body {
 }
 .main {
 	max-width: 1250px;
+	padding: 0px 20px;
 	margin: auto auto;
 	.container {
 		display: grid;
@@ -399,9 +400,6 @@ body {
 							order: 1;
 						}
 					}
-				}
-				@media (max-width: 800px) and (min-width: 300px) {
-					margin: 0px 25px;
 				}
 			}
 			.related-products {

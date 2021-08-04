@@ -239,6 +239,7 @@ body {
 
 .main {
   max-width: 1250px;
+  padding: 0px 20px;
   margin: auto auto;
 }
 
@@ -475,12 +476,6 @@ body {
     -webkit-box-ordinal-group: 2;
         -ms-flex-order: 1;
             order: 1;
-  }
-}
-
-@media (max-width: 800px) and (min-width: 300px) {
-  .main .container .left-sidebar .filter-by-price {
-    margin: 0px 25px;
   }
 }
 

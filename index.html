@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>E-commerce Website</title>
 		<link rel="stylesheet" href="css/style.css" />
+		<script src="js/script.js"></script>
 	</head>
 	<style></style>
 	<body>
@@ -22,46 +23,66 @@
 							<h2>Add Product</h2>
 						</div>
 						<div class="modal-body">
-							<div class="product-category">
-								<div class="product-category-name">product Category</div>
-								<select class="select-product-category" name="" id="">
-									<option value="Select">Select</option>
-								</select>
-							</div>
-							<div class="product-title">
-								<div class="product-title-name">product Title</div>
-								<input
-									class="title"
-									type="text"
-									placeholder="Enter Product Tilte"
-								/>
-							</div>
-							<div class="product-price">
-								<div class="product-price-name">Price</div>
-								<input class="price" type="text" placeholder="Enter Price" />
-							</div>
-							<div class="product-top">
-								<input class="top-product" type="checkbox" />
-								<span class="product-top-name">Top Products</span>
-							</div>
-							<div class="product-image">
-								<div class="product-image-name">Upload Product Image</div>
-								<label class="custom-file-upload">
-									<input type="file" />
-									Upload
-								</label>
-							</div>
+							<form action="">
+								<div class="product-category">
+									<div class="product-category-name">product Category</div>
+									<select
+										class="select-product-category"
+										name=""
+										id="selectedCategory"
+									>
+										<option value="" disabled="disabled">Select</option>
+										<option value="">Books</option>
+										<option value="">Hoodie/T-shirt</option>
+										<option value="">Bags</option>
+										<option value="">Misc</option>
+									</select>
+								</div>
+								<div class="product-title">
+									<div class="product-title-name">product Title</div>
+									<input
+										id="title"
+										class="title"
+										type="text"
+										placeholder="Enter Product Tilte"
+									/>
+								</div>
+								<div class="product-price">
+									<div class="product-price-name">Price</div>
+									<input
+										id="price"
+										class="price"
+										type="text"
+										placeholder="Enter Price"
+									/>
+								</div>
+								<div class="product-top">
+									<input id="topProduct" class="top-product" type="checkbox" />
+									<span class="product-top-name">Top Products</span>
+								</div>
+								<div class="product-image">
+									<div class="product-image-name">Upload Product Image</div>
+									<label class="custom-file-upload">
+										<input id="uploadedImage" type="file" />
+										Upload
+									</label>
+								</div>
+							</form>
 						</div>
 						<div class="modal-footer">
 							<div class="footer-cancel-save-container">
-								<button class="cancel">CANCEL</button>
-								<button class="save">SAVE</button>
+								<button id="cancel" class="cancel">CANCEL</button>
+								<button onclick="addProduct()" id="save" class="save">
+									SAVE
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</header>
+		<!-- <input id="fileTag" type="file" />
+		<img src="" id="preview" alt="" /> -->
 		<main class="main">
 			<div class="container">
 				<div class="left-sidebar">
@@ -69,10 +90,10 @@
 						<div class="sidebar-heading">Categories</div>
 						<div>
 							<ul>
-								<li>Books</li>
-								<li>Hoodle/T-shirt</li>
-								<li>Bags</li>
-								<li>Misc</li>
+								<li onclick="filterByCategory(this)">Books</li>
+								<li onclick="filterByCategory(this)">Hoodie/T-shirt</li>
+								<li onclick="filterByCategory(this)">Bags</li>
+								<li onclick="filterByCategory(this)">Misc</li>
 							</ul>
 						</div>
 					</div>
@@ -81,7 +102,7 @@
 						<input type="range" />
 						<div class="filter-btn-price">
 							<button class="filter-btn">Filter</button>
-							<span class="price-range">Price : <b>$299 - $599</b></span>
+							<span class="price-range">Price : <b>$29 - $599</b></span>
 						</div>
 					</div>
 					<div class="related-products">
@@ -90,7 +111,13 @@
 							<img src="https://source.unsplash.com/70x70/?mug,mockup" alt="" />
 							<div class="product-content">
 								<span class="mini-product-heading">Mug Mockups</span>
-								<div>star</div>
+								<div class="star">
+									<img src="images/star.png" alt="" />
+									<img src="images/star.png" alt="" />
+									<img src="images/star.png" alt="" />
+									<img src="images/star.png" alt="" />
+									<img src="images/star.png" alt="" />
+								</div>
 								<div class="mini-price">$99.00</div>
 							</div>
 						</div>
@@ -104,7 +131,7 @@
 						</select>
 					</div>
 					<div class="product-listing">
-						<div class="product-card">
+						<!-- <div class="product-card">
 							<div class="product-image">
 								<button class="product-sale">sale</button>
 								<img
@@ -116,8 +143,8 @@
 								<div class="product-name">Plain Notebook</div>
 								<div class="product-price">$199.0</div>
 							</div>
-						</div>
-						<div class="product-card">
+						</div> -->
+						<!-- <div class="product-card">
 							<img
 								src="https://source.unsplash.com/400x300/?casual,handbag"
 								alt=""
@@ -196,33 +223,29 @@
 								<div class="product-name">Plain Notebook</div>
 								<div class="product-price">$199.0</div>
 							</div>
-						</div>
+						</div> -->
+					</div>
+					<div class="pagination">
+						<a href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">></a>
 					</div>
 				</div>
 			</div>
 		</main>
 
 		<script>
-			// Get the modal
 			var modal = document.getElementById('myModal');
-
-			// Get the button that opens the modal
 			var btn = document.getElementById('myBtn');
-
-			// Get the <span> element that closes the modal
 			var span = document.getElementsByClassName('close')[0];
 
-			// When the user clicks the button, open the modal
 			btn.onclick = function () {
 				modal.style.display = 'block';
 			};
-
-			// When the user clicks on <span> (x), close the modal
 			span.onclick = function () {
 				modal.style.display = 'none';
 			};
-
-			// When the user clicks anywhere outside of the modal, close it
 			window.onclick = function (event) {
 				if (event.target == modal) {
 					modal.style.display = 'none';

@@ -1,4 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+a {
+  color: #303030;
+  text-decoration: none;
+}
+
 body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -83,7 +88,7 @@ body {
   padding: 0;
   border: 1px solid #888;
   border-radius: 5px;
-  width: 35%;
+  width: 32%;
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   /* The Close Button */
@@ -109,7 +114,6 @@ body {
 
 .header .container .modal .modal-content .modal-header {
   position: relative;
-  padding: 2px 16px;
   text-align: center;
 }
 
@@ -125,8 +129,8 @@ body {
 
 .header .container .modal .modal-content .modal-header .close {
   position: absolute;
-  right: -20px;
-  top: -20px;
+  right: -25px;
+  top: -50px;
   background-color: red;
   color: #fff;
   width: 50px;
@@ -277,12 +281,12 @@ body {
 }
 
 .header .container .modal .modal-content .modal-footer {
-  padding: 30px 0px;
+  padding: 20px 0px;
 }
 
 @media (max-width: 500px) {
   .header .container .modal .modal-content .modal-footer {
-    padding: 20px 0px;
+    padding: 15px 0px;
   }
 }
 
@@ -394,7 +398,7 @@ body {
 .main .container .left-sidebar .categories ul {
   border-radius: 5px;
   background-color: #f4f4f4;
-  padding: 20px 10px;
+  padding: 20px 0px;
   margin: 0;
 }
 
@@ -404,7 +408,7 @@ body {
   list-style: none;
   font-weight: 600;
   font-size: 1em;
-  padding: 15px 0px;
+  padding: 15px 10px;
   margin: 0px 15px;
 }
 
@@ -417,6 +421,10 @@ body {
   bottom: 0;
   height: 1px;
   background: rgba(195, 197, 197, 0.5);
+}
+
+.main .container .left-sidebar .categories ul li:hover {
+  background: #e0e0e0;
 }
 
 .main .container .left-sidebar .filter-by-price .sidebar-heading {
@@ -664,6 +672,10 @@ body {
   width: 180px;
   text-align: left;
   padding: 10px 10px;
+}
+
+.main .container .main-product-listing .top-sort .sort-button option {
+  font-size: 1.2em;
 }
 
 .main .container .main-product-listing .top-sort .showing-card {

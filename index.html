@@ -8,11 +8,10 @@
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="js/script.js"></script>
 	</head>
-	<style></style>
 	<body>
 		<header class="header">
 			<div class="container">
-				<div class="product-logo">Products</div>
+				<div class="product-logo"><a href="index.html">Products</a></div>
 				<button id="myBtn" class="add-product">Add Product</button>
 				<!-- The Modal -->
 				<div id="myModal" class="modal">
@@ -99,132 +98,42 @@
 					</div>
 					<div class="filter-by-price">
 						<div class="sidebar-heading">Filter By Price</div>
-						<input type="range" />
+						<input
+							onchange="rangeSlider(this)"
+							type="range"
+							id="slider"
+							min="0"
+							max="1000"
+							value="1000"
+						/>
 						<div class="filter-btn-price">
 							<button class="filter-btn">Filter</button>
-							<span class="price-range">Price : <b>$29 - $599</b></span>
+							<span class="price-range"
+								>Price : <b>$0 - $<span>1000</span></b></span
+							>
 						</div>
 					</div>
 					<div class="related-products">
 						<div class="sidebar-heading">Top Products</div>
-						<div class="mini-product-show">
-							<img src="https://source.unsplash.com/70x70/?mug,mockup" alt="" />
-							<div class="product-content">
-								<span class="mini-product-heading">Mug Mockups</span>
-								<div class="star">
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-								</div>
-								<div class="mini-price">$99.00</div>
-							</div>
+						<div class="mini-product-show-container">
+							<!-- <div class="mini-product-show"></div> -->
 						</div>
 					</div>
 				</div>
 				<div class="main-product-listing">
 					<div class="top-sort">
 						<span class="showing-card">Showing 1-8 of 9 results</span>
-						<select class="sort-button">
-							<option value="">Default Sorting</option>
+						<select
+							id="selectedSort"
+							onchange="sortByPrice()"
+							class="sort-button"
+						>
+							<option value="0">Default Sorting</option>
+							<option value="1">Price: High to Low</option>
+							<option value="2">Price: Low to High</option>
 						</select>
 					</div>
-					<div class="product-listing">
-						<!-- <div class="product-card">
-							<div class="product-image">
-								<button class="product-sale">sale</button>
-								<img
-									src="https://source.unsplash.com/400x300/?product,notebook"
-									alt=""
-								/>
-							</div>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div> -->
-						<!-- <div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?casual,handbag"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?e-book,reader"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?book,coverbook"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?mug,mockup"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?hoodie,red"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?poster,mockup"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?cardboard,boxes"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div>
-						<div class="product-card">
-							<img
-								src="https://source.unsplash.com/400x300/?online,book"
-								alt=""
-							/>
-							<div class="product-details">
-								<div class="product-name">Plain Notebook</div>
-								<div class="product-price">$199.0</div>
-							</div>
-						</div> -->
-					</div>
+					<div class="product-listing"></div>
 					<div class="pagination">
 						<a href="#">1</a>
 						<a href="#">2</a>

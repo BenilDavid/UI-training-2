@@ -7,7 +7,10 @@
 	font-size: 0.9em;
 	margin: 20px 0px;
 }
-
+a {
+	color: #303030;
+	text-decoration: none;
+}
 @mixin rangeSlider {
 	input[type='range'] {
 		height: 32px;
@@ -99,6 +102,7 @@
 		background: #f0f0f0;
 	}
 }
+
 body {
 	box-sizing: border-box;
 	font-family: 'Roboto' !important;
@@ -162,7 +166,7 @@ body {
 				padding: 0;
 				border: 1px solid #888;
 				border-radius: 5px;
-				width: 35%;
+				width: 32%;
 				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
 					0 6px 20px 0 rgba(0, 0, 0, 0.19);
 				/* The Close Button */
@@ -177,7 +181,7 @@ body {
 				}
 				.modal-header {
 					position: relative;
-					padding: 2px 16px;
+					// padding: 2px 16px;
 					text-align: center;
 					h2 {
 						font-size: 2.2em;
@@ -187,8 +191,8 @@ body {
 					}
 					.close {
 						position: absolute;
-						right: -20px;
-						top: -20px;
+						right: -25px;
+						top: -50px;
 						background-color: red;
 						color: #fff;
 						width: 50px;
@@ -319,9 +323,9 @@ body {
 					}
 				}
 				.modal-footer {
-					padding: 30px 0px;
+					padding: 20px 0px;
 					@media (max-width: 500px) {
-						padding: 20px 0px;
+						padding: 15px 0px;
 					}
 					.footer-cancel-save-container {
 						display: flex;
@@ -397,7 +401,7 @@ body {
 				ul {
 					border-radius: 5px;
 					background-color: #f4f4f4;
-					padding: 20px 10px;
+					padding: 20px 0px;
 					margin: 0;
 					li {
 						cursor: pointer;
@@ -405,7 +409,7 @@ body {
 						list-style: none;
 						font-weight: 600;
 						font-size: 1em;
-						padding: 15px 0px;
+						padding: 15px 10px;
 						margin: 0px 15px;
 						&:nth-child(1),
 						&:nth-child(2),
@@ -420,6 +424,9 @@ body {
 								height: 1px;
 								background: rgba(195, 197, 197, 0.5);
 							}
+						}
+						&:hover {
+							background: #e0e0e0;
 						}
 					}
 				}
@@ -519,6 +526,9 @@ body {
 					width: 180px;
 					text-align: left;
 					padding: 10px 10px;
+					option {
+						font-size: 1.2em;
+					}
 				}
 				.showing-card {
 					font-size: 0.9em;

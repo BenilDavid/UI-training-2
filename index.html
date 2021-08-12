@@ -13,7 +13,9 @@
 			<div class="container">
 				<div class="product-logo"><a href="index.html">Products</a></div>
 
-				<button id="myBtn" class="add-product">Add Product</button>
+				<button id="myBtn" onclick="addProductBtn()" class="add-product">
+					Add Product
+				</button>
 				<!-- The Modal -->
 				<div id="myModal" class="modal">
 					<!-- Modal content -->
@@ -32,7 +34,6 @@
 										id="selectedCategory"
 										value="hello"
 									>
-										<!-- <option value="" disabled="disabled">Select</option> -->
 										<option value="Books">Books</option>
 										<option value="Hoodie/T-shirt">Hoodie/T-shirt</option>
 										<option value="Bags">Bags</option>
@@ -64,7 +65,7 @@
 								<div class="product-image">
 									<div class="product-image-name">Upload Product Image</div>
 									<label class="custom-file-upload">
-										<input id="uploadedImage" type="file" />
+										<input name="uploadImg" id="uploadedImage" type="file" />
 										Upload
 									</label>
 								</div>
@@ -82,8 +83,6 @@
 				</div>
 			</div>
 		</header>
-		<!-- <input id="fileTag" type="file" />
-		<img src="" id="preview" alt="" /> -->
 		<main class="main">
 			<div class="container">
 				<div class="left-sidebar">
@@ -142,25 +141,14 @@
 						<a href="#">3</a>
 						<a href="#">></a> -->
 					</div>
-					<!-- <div>
-						<div id="listingTable"></div>
-						<a href="javascript:prevPage()" id="btn_prev">Prev</a>
-						<a href="javascript:nextPage()" id="btn_next">Next</a>
-						page: <span id="page"></span>
-					</div> -->
 				</div>
 			</div>
 		</main>
 
 		<script>
 			var modal = document.getElementById('myModal');
-			var btn = document.getElementById('myBtn');
 			var span = document.getElementsByClassName('close')[0];
 			var body = document.getElementsByTagName('body')[0];
-			btn.onclick = function () {
-				modal.style.display = 'block';
-				body.style.overflow = 'hidden';
-			};
 			span.onclick = function () {
 				modal.style.display = 'none';
 				body.style.overflow = 'auto';

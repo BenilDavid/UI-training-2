@@ -71,15 +71,15 @@ var productsArray = [
 		sale: false,
 		uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
 	},
-	// {
-	// 	id: 9,
-	// 	productCategory: 'Misc',
-	// 	productTitle: 'Poster Mockup',
-	// 	price: 89.0,
-	// 	topProducts: false,
-	// 	sale: false,
-	// 	uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
-	// },
+	{
+		id: 9,
+		productCategory: 'Misc',
+		productTitle: 'Poster Mockup',
+		price: 89.0,
+		topProducts: false,
+		sale: false,
+		uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
+	},
 	// {
 	// 	id: 10,
 	// 	productCategory: 'Misc',
@@ -113,10 +113,13 @@ var topProductsArray = [
 var maxProductsPerPage = 9;
 var pageCount = 1;
 
+// onload rendering
 window.onload = function () {
 	renderProducts(productsArray);
 	renderTopProducts(topProductsArray);
+};
 
+function checkPagination() {
 	// need to work on this part
 	if (productsArray.length > maxProductsPerPage) {
 		pageCount++;
@@ -141,84 +144,9 @@ window.onload = function () {
 			pagination.appendChild(pageNum);
 		}
 	}
-};
-function editProduct() {
-	var id = document.getElementById('productId');
-	var currentSelectedId = idarray[idarray.length - 1];
-	// console.log(idarray[idarray.length - 1]);
-	productsArray.forEach((obj) => {
-		// console.log(obj);
-		if (obj.id == currentSelectedId) {
-			// alert('woring');
-			console.log(obj);
-			var e = document.getElementById('selectedCategory');
-			var category = e.options[e.selectedIndex].text;
-			obj.productCategory = category;
-			var title = document.getElementById('title').value;
-			obj.productTitle = title;
-			var price = document.getElementById('price').value;
-			obj.price = price;
-			var topProduct = document.getElementById('topProduct').checked;
-			obj.topProducts = topProduct;
-			// var uploadValue = document.querySelector('input[type="file"]').value;
-			// // // var uploadFile = document.querySelector('input[type="file"]').files;
-			// obj.uploadedImageSrc = uploadValue.slice(12);
-			// // console.log(uploadFile);
-
-			var uploadFile = document.querySelector('input[type="file"]').files[0];
-			var image = URL.createObjectURL(uploadFile);
-			obj.uploadedImageSrc = image;
-
-			console.log(category);
-			console.log(title);
-			console.log(price);
-			console.log(topProduct);
-			// console.log(uploadValue);
-			console.log(obj);
-		}
-	});
-	var productcard = document.querySelectorAll('.product-card');
-	productcard.forEach((element) => {
-		element.style.display = 'none';
-	});
-	renderProducts(productsArray);
 }
 
-// fiving default values for the product modal
-var idarray = [];
-function modalOpen(element) {
-	var modal = document.getElementById('myModal');
-	var save = document.getElementById('save');
-	var modalProductCategory = document.querySelectorAll(
-		'.product-category select option'
-	);
-	var modalProductTitle = document.querySelector('.product-title input');
-	var modalProductPrice = document.querySelector('.product-price input');
-	// var id = document.getElementById('productId');
-	var clikedProductId = element.childNodes[3].childNodes[1].innerHTML;
-	// changing the onclick function
-	save.setAttribute('onclick', 'editProduct()');
-
-	var body = document.getElementsByTagName('body')[0];
-	modal.style.display = 'block';
-	body.style.overflow = 'hidden';
-	idarray.push(clikedProductId);
-	productsArray.forEach((obj) => {
-		if (obj.id == clikedProductId) {
-			console.log(obj);
-			modalProductCategory.forEach((option) => {
-				if (option.value === obj.productCategory) {
-					console.log(option);
-					option.setAttribute('selected', '');
-				}
-			});
-			modalProductTitle.setAttribute('value', obj.productTitle);
-			modalProductPrice.setAttribute('value', obj.price);
-		}
-	});
-	console.log(clikedProductId);
-}
-
+// pagination
 function displayProducts(element) {
 	// unactive background for all page number
 	var allPageNumber = document.querySelectorAll('.page');
@@ -242,30 +170,137 @@ function displayProducts(element) {
 		if (element.textContent == 1) {
 			if (index < maxProductsPerPage) {
 				showProducts(productListing, e);
+				checkPagination();
 			}
 		}
 		// if page number 2 is clicked
 		else if (element.textContent == 2) {
 			if (index >= maxProductsPerPage && index < 2 * maxProductsPerPage) {
 				showProducts(productListing, e);
+				checkPagination();
 			}
 		}
 	});
 }
+
+function addProductBtn() {
+	var save = document.getElementById('save');
+	save.setAttribute('onclick', 'addProduct()');
+
+	var title = document.getElementById('title').value;
+	var price = document.getElementById('price').value;
+	var topProduct = document.getElementById('topProduct').checked;
+	var uploadFile = document.querySelector('input[type="file"]').files[0];
+	title = '';
+	price = '';
+	console.log(title);
+	console.log(price);
+	console.log(topProduct);
+	console.log(uploadFile);
+	modal.style.display = 'block';
+	body.style.overflow = 'hidden';
+}
+
+// when product is clicked
+// showing default values for the product modal
+var idarray = [];
+function productClicked(element) {
+	var modal = document.getElementById('myModal');
+	var save = document.getElementById('save');
+	var modalProductCategory = document.querySelectorAll(
+		'.product-category select option'
+	);
+	var modalProductTitle = document.querySelector('.product-title input');
+	var modalProductPrice = document.querySelector('.product-price input');
+	var clikedProductId = element.childNodes[3].childNodes[1].innerHTML;
+
+	// changing the onclick function
+	save.setAttribute('onclick', 'editProduct()');
+
+	// showing the modal
+	var body = document.getElementsByTagName('body')[0];
+	modal.style.display = 'block';
+	body.style.overflow = 'hidden';
+
+	// store product id
+	idarray.push(clikedProductId);
+
+	// setting default values for the product that is clicked
+	productsArray.forEach((obj) => {
+		if (obj.id == clikedProductId) {
+			console.log(obj);
+			modalProductCategory.forEach((option) => {
+				if (option.value === obj.productCategory) {
+					option.setAttribute('selected', '');
+				}
+			});
+			modalProductTitle.setAttribute('value', obj.productTitle);
+			modalProductPrice.setAttribute('value', obj.price);
+		}
+	});
+}
+
+// save button when editting a product details
+function editProduct() {
+	// hide modal after save
+	var modal = document.getElementById('myModal');
+	modal.style.display = 'none';
+	body.style.overflow = 'auto';
+
+	var id = document.getElementById('productId');
+	var currentSelectedId = idarray[idarray.length - 1];
+	productsArray.forEach((obj) => {
+		if (obj.id == currentSelectedId) {
+			console.log(obj);
+			var e = document.getElementById('selectedCategory');
+			var category = e.options[e.selectedIndex].text;
+			obj.productCategory = category;
+			var title = document.getElementById('title').value;
+			obj.productTitle = title;
+			var price = document.getElementById('price').value;
+			obj.price = price;
+			var topProduct = document.getElementById('topProduct').checked;
+			obj.topProducts = topProduct;
+
+			var uploadFile = document.querySelector('input[type="file"]').files[0];
+			if (uploadFile) {
+				var image = URL.createObjectURL(uploadFile);
+				obj.uploadedImageSrc = image;
+			}
+
+			console.log(category);
+			console.log(title);
+			console.log(price);
+			console.log(topProduct);
+			console.log(obj);
+		}
+	});
+	var productcard = document.querySelectorAll('.product-card');
+	productcard.forEach((element) => {
+		element.style.display = 'none';
+	});
+	renderProducts(productsArray);
+	checkPagination();
+}
+
+// rendering products
 function renderProducts(arr) {
 	var productListing = document.querySelector('.product-listing');
 
 	arr.map((e, index) => {
 		if (index < maxProductsPerPage) {
 			showProducts(productListing, e);
+			checkPagination();
 		}
 	});
 }
+
+// HTML for products
 function showProducts(productListing, e) {
 	var productCard = document.createElement('div');
 	productCard.setAttribute('class', 'product-card');
 	productCard.setAttribute('id', 'cardBtn');
-	productCard.setAttribute('onclick', 'modalOpen(this)');
+	productCard.setAttribute('onclick', 'productClicked(this)');
 	productListing.appendChild(productCard);
 	let productCardDetails = `
             <div class="product-image">
@@ -287,11 +322,12 @@ function showProducts(productListing, e) {
         `;
 	productCard.innerHTML = productCardDetails;
 }
+
+// rendering top products in sidebar
 function renderTopProducts(toparr) {
 	var topProductsShowContainer = document.querySelector(
 		'.mini-product-show-container'
 	);
-
 	toparr.map((e) => {
 		var topProductsShow = document.createElement('div');
 		topProductsShow.setAttribute('class', 'mini-product-show');
@@ -314,12 +350,24 @@ function renderTopProducts(toparr) {
 	});
 }
 
-//adding product to the product list
+// save button for add product button
+//adding product to the product list (when Save button is clicked)
 const addProduct = () => {
 	// hide modal after save
 	var modal = document.getElementById('myModal');
 	modal.style.display = 'none';
 	body.style.overflow = 'auto';
+
+	// unactive background for all page
+	var pageNum = document.querySelectorAll('.pagination a');
+	pageNum.forEach((pageNo) => {
+		pageNo.style.backgroundColor = '#fff';
+		pageNo.style.color = '#303030';
+	});
+	// active background for first page
+	var pageNum1 = document.querySelectorAll('.pagination a')[0];
+	pageNum1.style.backgroundColor = 'red';
+	pageNum1.style.color = '#fff';
 
 	obj = {};
 	var e = document.getElementById('selectedCategory');

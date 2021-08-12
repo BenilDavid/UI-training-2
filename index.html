@@ -12,6 +12,7 @@
 		<header class="header">
 			<div class="container">
 				<div class="product-logo"><a href="index.html">Products</a></div>
+
 				<button id="myBtn" class="add-product">Add Product</button>
 				<!-- The Modal -->
 				<div id="myModal" class="modal">
@@ -29,12 +30,13 @@
 										class="select-product-category"
 										name=""
 										id="selectedCategory"
+										value="hello"
 									>
-										<option value="" disabled="disabled">Select</option>
-										<option value="">Books</option>
-										<option value="">Hoodie/T-shirt</option>
-										<option value="">Bags</option>
-										<option value="">Misc</option>
+										<!-- <option value="" disabled="disabled">Select</option> -->
+										<option value="Books">Books</option>
+										<option value="Hoodie/T-shirt">Hoodie/T-shirt</option>
+										<option value="Bags">Bags</option>
+										<option value="Misc">Misc</option>
 									</select>
 								</div>
 								<div class="product-title">
@@ -115,9 +117,7 @@
 					</div>
 					<div class="related-products">
 						<div class="sidebar-heading">Top Products</div>
-						<div class="mini-product-show-container">
-							<!-- <div class="mini-product-show"></div> -->
-						</div>
+						<div class="mini-product-show-container"></div>
 					</div>
 				</div>
 				<div class="main-product-listing">
@@ -135,11 +135,19 @@
 					</div>
 					<div class="product-listing"></div>
 					<div class="pagination">
-						<a href="#">1</a>
-						<a href="#">2</a>
+						<a class="page active" onclick="displayProducts(this)" href="#"
+							>1</a
+						>
+						<!-- <a href="#">2</a>
 						<a href="#">3</a>
-						<a href="#">></a>
+						<a href="#">></a> -->
 					</div>
+					<!-- <div>
+						<div id="listingTable"></div>
+						<a href="javascript:prevPage()" id="btn_prev">Prev</a>
+						<a href="javascript:nextPage()" id="btn_next">Next</a>
+						page: <span id="page"></span>
+					</div> -->
 				</div>
 			</div>
 		</main>
@@ -148,16 +156,19 @@
 			var modal = document.getElementById('myModal');
 			var btn = document.getElementById('myBtn');
 			var span = document.getElementsByClassName('close')[0];
-
+			var body = document.getElementsByTagName('body')[0];
 			btn.onclick = function () {
 				modal.style.display = 'block';
+				body.style.overflow = 'hidden';
 			};
 			span.onclick = function () {
 				modal.style.display = 'none';
+				body.style.overflow = 'auto';
 			};
 			window.onclick = function (event) {
 				if (event.target == modal) {
 					modal.style.display = 'none';
+					body.style.overflow = 'auto';
 				}
 			};
 		</script>

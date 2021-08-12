@@ -62,41 +62,44 @@ var productsArray = [
 		sale: false,
 		uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
 	},
+	{
+		id: 8,
+		productCategory: 'Misc',
+		productTitle: 'Poster Mockup',
+		price: 89.0,
+		topProducts: false,
+		sale: false,
+		uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
+	},
+	// {
+	// 	id: 9,
+	// 	productCategory: 'Misc',
+	// 	productTitle: 'Poster Mockup',
+	// 	price: 89.0,
+	// 	topProducts: false,
+	// 	sale: false,
+	// 	uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
+	// },
+	// {
+	// 	id: 10,
+	// 	productCategory: 'Misc',
+	// 	productTitle: 'Poster Mockup',
+	// 	price: 89.0,
+	// 	topProducts: false,
+	// 	sale: false,
+	// 	uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
+	// },
+	// {
+	// 	id: 11,
+	// 	productCategory: 'Misc',
+	// 	productTitle: 'Poster Mockup',
+	// 	price: 89.0,
+	// 	topProducts: false,
+	// 	sale: false,
+	// 	uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
+	// },
 ];
 
-window.onload = function () {
-	renderProducts(productsArray);
-	renderTopProducts(topProductsArray);
-};
-
-function renderProducts(arr) {
-	var productListing = document.querySelector('.product-listing');
-
-	arr.map((e) => {
-		var productCard = document.createElement('div');
-		productCard.setAttribute('class', 'product-card');
-		productListing.appendChild(productCard);
-		let productCardDetails = `
-            <div class="product-image">
-                ${
-									e.sale === true
-										? '<button class="product-sale">sale</button>'
-										: ''
-								}
-                <img
-                    src="${e.uploadedImageSrc}"
-                    alt=""
-                    id="preview"
-                />
-            </div>
-            <div class="product-details">
-                <div class="product-name">${e.productTitle}</div>
-                <div class="product-price">$${e.price}</div>
-            </div>
-        `;
-		productCard.innerHTML = productCardDetails;
-	});
-}
 var topProductsArray = [
 	{
 		id: 1,
@@ -107,6 +110,183 @@ var topProductsArray = [
 		uploadedImageSrc: 'https://source.unsplash.com/70x70/?mug,mockup',
 	},
 ];
+var maxProductsPerPage = 9;
+var pageCount = 1;
+
+window.onload = function () {
+	renderProducts(productsArray);
+	renderTopProducts(topProductsArray);
+
+	// need to work on this part
+	if (productsArray.length > maxProductsPerPage) {
+		pageCount++;
+		console.log(pageCount);
+
+		if (pageCount == 2) {
+			var pagination = document.querySelector('.pagination');
+			console.log(pagination);
+			var pageNum = document.createElement('a');
+			pageNum.setAttribute('class', 'page');
+			pageNum.setAttribute('onclick', 'displayProducts(this)');
+			pageNum.textContent = 2;
+			pagination.appendChild(pageNum);
+		}
+		if (productsArray.length > 2 * maxProductsPerPage) {
+			var pagination = document.querySelector('.pagination');
+			console.log(pagination);
+			var pageNum = document.createElement('a');
+			pageNum.setAttribute('class', 'page');
+			pageNum.setAttribute('onclick', 'displayProducts(this)');
+			pageNum.textContent = 3;
+			pagination.appendChild(pageNum);
+		}
+	}
+};
+function editProduct() {
+	var id = document.getElementById('productId');
+	var currentSelectedId = idarray[idarray.length - 1];
+	// console.log(idarray[idarray.length - 1]);
+	productsArray.forEach((obj) => {
+		// console.log(obj);
+		if (obj.id == currentSelectedId) {
+			// alert('woring');
+			console.log(obj);
+			var e = document.getElementById('selectedCategory');
+			var category = e.options[e.selectedIndex].text;
+			obj.productCategory = category;
+			var title = document.getElementById('title').value;
+			obj.productTitle = title;
+			var price = document.getElementById('price').value;
+			obj.price = price;
+			var topProduct = document.getElementById('topProduct').checked;
+			obj.topProducts = topProduct;
+			// var uploadValue = document.querySelector('input[type="file"]').value;
+			// // // var uploadFile = document.querySelector('input[type="file"]').files;
+			// obj.uploadedImageSrc = uploadValue.slice(12);
+			// // console.log(uploadFile);
+
+			var uploadFile = document.querySelector('input[type="file"]').files[0];
+			var image = URL.createObjectURL(uploadFile);
+			obj.uploadedImageSrc = image;
+
+			console.log(category);
+			console.log(title);
+			console.log(price);
+			console.log(topProduct);
+			// console.log(uploadValue);
+			console.log(obj);
+		}
+	});
+	var productcard = document.querySelectorAll('.product-card');
+	productcard.forEach((element) => {
+		element.style.display = 'none';
+	});
+	renderProducts(productsArray);
+}
+
+// fiving default values for the product modal
+var idarray = [];
+function modalOpen(element) {
+	var modal = document.getElementById('myModal');
+	var save = document.getElementById('save');
+	var modalProductCategory = document.querySelectorAll(
+		'.product-category select option'
+	);
+	var modalProductTitle = document.querySelector('.product-title input');
+	var modalProductPrice = document.querySelector('.product-price input');
+	// var id = document.getElementById('productId');
+	var clikedProductId = element.childNodes[3].childNodes[1].innerHTML;
+	// changing the onclick function
+	save.setAttribute('onclick', 'editProduct()');
+
+	var body = document.getElementsByTagName('body')[0];
+	modal.style.display = 'block';
+	body.style.overflow = 'hidden';
+	idarray.push(clikedProductId);
+	productsArray.forEach((obj) => {
+		if (obj.id == clikedProductId) {
+			console.log(obj);
+			modalProductCategory.forEach((option) => {
+				if (option.value === obj.productCategory) {
+					console.log(option);
+					option.setAttribute('selected', '');
+				}
+			});
+			modalProductTitle.setAttribute('value', obj.productTitle);
+			modalProductPrice.setAttribute('value', obj.price);
+		}
+	});
+	console.log(clikedProductId);
+}
+
+function displayProducts(element) {
+	// unactive background for all page number
+	var allPageNumber = document.querySelectorAll('.page');
+	allPageNumber.forEach((elmnt) => {
+		elmnt.style.backgroundColor = '#fff';
+		elmnt.style.color = '#303030';
+	});
+	// active background for clicked pageNumber
+	element.style.backgroundColor = 'red';
+	element.style.color = '#fff';
+
+	// remove all product cards
+	var productcard = document.querySelectorAll('.product-card');
+	productcard.forEach((element) => {
+		element.style.display = 'none';
+	});
+	var productListing = document.querySelector('.product-listing');
+
+	productsArray.map((e, index) => {
+		// if page number 1 is clicked
+		if (element.textContent == 1) {
+			if (index < maxProductsPerPage) {
+				showProducts(productListing, e);
+			}
+		}
+		// if page number 2 is clicked
+		else if (element.textContent == 2) {
+			if (index >= maxProductsPerPage && index < 2 * maxProductsPerPage) {
+				showProducts(productListing, e);
+			}
+		}
+	});
+}
+function renderProducts(arr) {
+	var productListing = document.querySelector('.product-listing');
+
+	arr.map((e, index) => {
+		if (index < maxProductsPerPage) {
+			showProducts(productListing, e);
+		}
+	});
+}
+function showProducts(productListing, e) {
+	var productCard = document.createElement('div');
+	productCard.setAttribute('class', 'product-card');
+	productCard.setAttribute('id', 'cardBtn');
+	productCard.setAttribute('onclick', 'modalOpen(this)');
+	productListing.appendChild(productCard);
+	let productCardDetails = `
+            <div class="product-image">
+                ${
+									e.sale === true
+										? '<button class="product-sale">sale</button>'
+										: ''
+								}
+                <img
+                    src="${e.uploadedImageSrc}"
+                    alt=""
+                />
+            </div>
+            <div class="product-details">
+				<span id="productId" style="display: none">${e.id}</span>
+                <div class="product-name">${e.productTitle}</div>
+                <div class="product-price">$${e.price}</div>
+            <div/>
+        `;
+	productCard.innerHTML = productCardDetails;
+}
 function renderTopProducts(toparr) {
 	var topProductsShowContainer = document.querySelector(
 		'.mini-product-show-container'
@@ -134,10 +314,13 @@ function renderTopProducts(toparr) {
 	});
 }
 
+//adding product to the product list
 const addProduct = () => {
-	// productsArray = [];
-	// topProductsArray = [];
-	// alert('saved');
+	// hide modal after save
+	var modal = document.getElementById('myModal');
+	modal.style.display = 'none';
+	body.style.overflow = 'auto';
+
 	obj = {};
 	var e = document.getElementById('selectedCategory');
 	var category = e.options[e.selectedIndex].text;
@@ -148,20 +331,19 @@ const addProduct = () => {
 	obj['price'] = price;
 	var topProduct = document.getElementById('topProduct').checked;
 	obj['topProducts'] = topProduct;
-	var uploadValue = document.querySelector('input[type="file"]').value;
-	// var uploadFile = document.querySelector('input[type="file"]').files;
-	obj['uploadedImageSrc'] = uploadValue.slice(12);
-	// console.log(uploadFile);
+	var uploadFile = document.querySelector('input[type="file"]').files[0];
+	var image = URL.createObjectURL(uploadFile);
+	obj['uploadedImageSrc'] = image;
 
+	console.log(image);
 	console.log(category);
 	console.log(title);
 	console.log(price);
 	console.log(topProduct);
-	console.log(uploadValue.slice(12));
 
 	// console.log(obj);
 	if (topProduct === true) {
-		// remove all product cards
+		// remove all top product cards
 		var miniProductShow = document.querySelectorAll('.mini-product-show');
 		miniProductShow.forEach((element) => {
 			element.style.display = 'none';
@@ -180,12 +362,12 @@ const addProduct = () => {
 	}
 };
 
+// selecting sort by price type (ASC/DESC)
 function sortByPrice() {
 	var e = document.getElementById('selectedSort');
 	var category = e.options[e.selectedIndex].value;
 	console.log(category);
 
-	// sortedArray = [];
 	if (category == 1) {
 		priceHighToLow();
 	} else if (category == 2) {
@@ -201,7 +383,7 @@ function sortByPrice() {
 		renderProducts(productsArray);
 	}
 }
-// var newarr =
+
 function priceLowToHigh() {
 	// remove all product cards
 	var productcard = document.querySelectorAll('.product-card');
@@ -220,8 +402,6 @@ function priceLowToHigh() {
 		});
 		renderProducts(newarr);
 	}
-
-	// console.log(newarr);
 }
 
 function priceHighToLow() {
@@ -270,6 +450,7 @@ function rangeChanged(val) {
 
 var filterCategory = productsArray;
 
+// filter array based on the chosen category
 const filterByCategory = (category) => {
 	// remove all product cards
 	var productcard = document.querySelectorAll('.product-card');

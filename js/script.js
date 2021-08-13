@@ -355,7 +355,7 @@ function renderTopProducts(toparr) {
 		topProductsShow.setAttribute('class', 'mini-product-show');
 		topProductsShowContainer.appendChild(topProductsShow);
 		let topProductDetails = `
-                            <img src="${e.uploadedImageSrc}" alt="" />
+                            <img style="width: 70px;height:70px;" src="${e.uploadedImageSrc}" alt="" />
 							<div class="product-content">
 								<span class="mini-product-heading">${e.productTitle}</span>
 								<div class="star">
@@ -445,7 +445,7 @@ const addProduct = () => {
 			miniProductShow.forEach((element) => {
 				element.style.display = 'none';
 			});
-			alert('added to top products list');
+			// alert('added to top products list');
 			topProductsArray.push(obj);
 			renderTopProducts(topProductsArray);
 		} else {

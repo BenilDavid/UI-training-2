@@ -117,6 +117,19 @@ var pageCount = 1;
 window.onload = function () {
 	renderProducts(productsArray);
 	renderTopProducts(topProductsArray);
+
+	window.addEventListener('click', function (event) {
+		var modal = document.getElementById('myModal');
+		if (event.target == modal) {
+			var body = document.getElementsByTagName('body')[0];
+			var title = document.getElementById('title');
+			var price = document.getElementById('price');
+			modal.style.display = 'none';
+			body.style.overflow = 'auto';
+			title.value = '';
+			price.value = '';
+		}
+	});
 };
 
 function checkPagination() {
@@ -183,17 +196,40 @@ function displayProducts(element) {
 	});
 }
 
+function closeModal() {
+	var modal = document.getElementById('myModal');
+	var body = document.getElementsByTagName('body')[0];
+	var title = document.getElementById('title');
+	var price = document.getElementById('price');
+	modal.style.display = 'none';
+	body.style.overflow = 'auto';
+	title.value = '';
+	price.value = '';
+}
+function cancel() {
+	var modal = document.getElementById('myModal');
+	var body = document.getElementsByTagName('body')[0];
+	var title = document.getElementById('title');
+	var price = document.getElementById('price');
+	modal.style.display = 'none';
+	body.style.overflow = 'auto';
+	title.value = '';
+	price.value = '';
+}
 // add product button
 function addProductBtn() {
+	var modal = document.getElementById('myModal');
+	var body = document.getElementsByTagName('body')[0];
+
 	var save = document.getElementById('save');
 	save.setAttribute('onclick', 'addProduct()');
 
-	var title = document.getElementById('title').value;
-	var price = document.getElementById('price').value;
+	var title = document.getElementById('title');
+	var price = document.getElementById('price');
 	var topProduct = document.getElementById('topProduct').checked;
 	var uploadFile = document.querySelector('input[type="file"]').files[0];
-	title = '';
-	price = '';
+	title.value = '';
+	price.value = '';
 	console.log(title);
 	console.log(price);
 	console.log(topProduct);
@@ -234,10 +270,14 @@ function productClicked(element) {
 					option.setAttribute('selected', '');
 				}
 			});
-			modalProductTitle.setAttribute('value', obj.productTitle);
-			modalProductPrice.setAttribute('value', obj.price);
+			modalProductTitle.value = obj.productTitle;
+			modalProductPrice.value = obj.price;
+			// modalProductTitle.setAttribute('value', obj.productTitle);
+			// modalProductPrice.setAttribute('value', obj.price);
 		}
 	});
+	console.log(modalProductTitle);
+	console.log(modalProductPrice);
 }
 
 // save button when editting a product details
@@ -261,19 +301,14 @@ function editProduct() {
 		} else {
 			document.getElementById('error-msg-price').innerHTML = '';
 		}
-		// if (uploadFile == undefined) {
-		// 	document.getElementById('error-msg-file').innerHTML =
-		// 		'Please Upload the file';
-		// } else {
-		// 	document.getElementById('error-msg-file').innerHTML = '';
-		// }
 	} else {
 		// hide modal after save
 		var modal = document.getElementById('myModal');
+		var body = document.getElementsByTagName('body')[0];
 		modal.style.display = 'none';
 		body.style.overflow = 'auto';
 
-		var id = document.getElementById('productId');
+		// var id = document.getElementById('productId');
 		var currentSelectedId = idarray[idarray.length - 1];
 		productsArray.forEach((obj) => {
 			if (obj.id == currentSelectedId) {
@@ -376,6 +411,7 @@ function renderTopProducts(toparr) {
 //adding product to the product list (when Save button is clicked)
 const addProduct = () => {
 	obj = {};
+	obj['id'] = productsArray.length + 1;
 	var e = document.getElementById('selectedCategory');
 	var category = e.options[e.selectedIndex].text;
 	obj['productCategory'] = category;
@@ -418,6 +454,7 @@ const addProduct = () => {
 
 		// hide modal after save
 		var modal = document.getElementById('myModal');
+		var body = document.getElementsByTagName('body')[0];
 		modal.style.display = 'none';
 		body.style.overflow = 'auto';
 

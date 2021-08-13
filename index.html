@@ -21,7 +21,7 @@
 					<!-- Modal content -->
 					<div class="modal-content">
 						<div class="modal-header">
-							<span class="close">&times;</span>
+							<span onclick="closeModal();" class="close">&times;</span>
 							<h2>Add Product</h2>
 						</div>
 						<div class="modal-body">
@@ -32,7 +32,6 @@
 										class="select-product-category"
 										name=""
 										id="selectedCategory"
-										value="hello"
 									>
 										<option value="Books">Books</option>
 										<option value="Hoodie/T-shirt">Hoodie/T-shirt</option>
@@ -68,15 +67,17 @@
 									<div class="product-image-name">Upload Product Image</div>
 									<label class="custom-file-upload">
 										<input name="uploadImg" id="uploadedImage" type="file" />
-										Upload
-									</label><span class="show-img-name"></span>
+										Upload </label
+									><span class="show-img-name"></span>
 									<div id="error-msg-file" class="error-msg"></div>
 								</div>
 							</form>
 						</div>
 						<div class="modal-footer">
 							<div class="footer-cancel-save-container">
-								<button id="cancel" class="cancel">CANCEL</button>
+								<button onclick="cancel()" id="cancel" class="cancel">
+									CANCEL
+								</button>
 								<button onclick="addProduct()" id="save" class="save">
 									SAVE
 								</button>
@@ -148,20 +149,19 @@
 			</div>
 		</main>
 
-		<script>
+		<!-- <script>
 			var modal = document.getElementById('myModal');
-			var span = document.getElementsByClassName('close')[0];
 			var body = document.getElementsByTagName('body')[0];
-			span.onclick = function () {
-				modal.style.display = 'none';
-				body.style.overflow = 'auto';
-			};
+			var title = document.getElementById('title');
+			var price = document.getElementById('price');
 			window.onclick = function (event) {
 				if (event.target == modal) {
 					modal.style.display = 'none';
 					body.style.overflow = 'auto';
+					title.setAttribute('value', '');
+					price.setAttribute('value', '');
 				}
 			};
-		</script>
+		</script> -->
 	</body>
 </html>

@@ -183,6 +183,7 @@ function displayProducts(element) {
 	});
 }
 
+// add product button
 function addProductBtn() {
 	var save = document.getElementById('save');
 	save.setAttribute('onclick', 'addProduct()');
@@ -201,19 +202,18 @@ function addProductBtn() {
 	body.style.overflow = 'hidden';
 }
 
+var idarray = [];
 // when product is clicked
 // showing default values for the product modal
-var idarray = [];
 function productClicked(element) {
 	var modal = document.getElementById('myModal');
 	var save = document.getElementById('save');
 	var modalProductCategory = document.querySelectorAll(
 		'.product-category select option'
 	);
-	var modalProductTitle = document.querySelector('.product-title input');
-	var modalProductPrice = document.querySelector('.product-price input');
+	var modalProductTitle = document.querySelector('#title');
+	var modalProductPrice = document.querySelector('#price');
 	var clikedProductId = element.childNodes[3].childNodes[1].innerHTML;
-
 	// changing the onclick function
 	save.setAttribute('onclick', 'editProduct()');
 
@@ -242,45 +242,67 @@ function productClicked(element) {
 
 // save button when editting a product details
 function editProduct() {
-	// hide modal after save
-	var modal = document.getElementById('myModal');
-	modal.style.display = 'none';
-	body.style.overflow = 'auto';
+	var e = document.getElementById('selectedCategory');
+	var title = document.getElementById('title').value;
+	var price = document.getElementById('price').value;
+	var topProduct = document.getElementById('topProduct').checked;
+	var uploadFile = document.querySelector('input[type="file"]').files[0];
 
-	var id = document.getElementById('productId');
-	var currentSelectedId = idarray[idarray.length - 1];
-	productsArray.forEach((obj) => {
-		if (obj.id == currentSelectedId) {
-			console.log(obj);
-			var e = document.getElementById('selectedCategory');
-			var category = e.options[e.selectedIndex].text;
-			obj.productCategory = category;
-			var title = document.getElementById('title').value;
-			obj.productTitle = title;
-			var price = document.getElementById('price').value;
-			obj.price = price;
-			var topProduct = document.getElementById('topProduct').checked;
-			obj.topProducts = topProduct;
-
-			var uploadFile = document.querySelector('input[type="file"]').files[0];
-			if (uploadFile) {
-				var image = URL.createObjectURL(uploadFile);
-				obj.uploadedImageSrc = image;
-			}
-
-			console.log(category);
-			console.log(title);
-			console.log(price);
-			console.log(topProduct);
-			console.log(obj);
+	if (!title || !price) {
+		if (!title) {
+			document.getElementById('error-msg-title').innerHTML =
+				'Please Enter the Title';
+		} else {
+			document.getElementById('error-msg-title').innerHTML = '';
 		}
-	});
-	var productcard = document.querySelectorAll('.product-card');
-	productcard.forEach((element) => {
-		element.style.display = 'none';
-	});
-	renderProducts(productsArray);
-	checkPagination();
+		if (!price) {
+			document.getElementById('error-msg-price').innerHTML =
+				'Please Enter the Price';
+		} else {
+			document.getElementById('error-msg-price').innerHTML = '';
+		}
+		// if (uploadFile == undefined) {
+		// 	document.getElementById('error-msg-file').innerHTML =
+		// 		'Please Upload the file';
+		// } else {
+		// 	document.getElementById('error-msg-file').innerHTML = '';
+		// }
+	} else {
+		// hide modal after save
+		var modal = document.getElementById('myModal');
+		modal.style.display = 'none';
+		body.style.overflow = 'auto';
+
+		var id = document.getElementById('productId');
+		var currentSelectedId = idarray[idarray.length - 1];
+		productsArray.forEach((obj) => {
+			if (obj.id == currentSelectedId) {
+				console.log(obj);
+				var category = e.options[e.selectedIndex].text;
+				obj.productCategory = category;
+				obj.productTitle = title;
+				obj.price = price;
+				obj.topProducts = topProduct;
+
+				if (uploadFile) {
+					var image = URL.createObjectURL(uploadFile);
+					obj.uploadedImageSrc = image;
+				}
+
+				console.log(category);
+				console.log(title);
+				console.log(price);
+				console.log(topProduct);
+				console.log(obj);
+			}
+		});
+		var productcard = document.querySelectorAll('.product-card');
+		productcard.forEach((element) => {
+			element.style.display = 'none';
+		});
+		renderProducts(productsArray);
+		checkPagination();
+	}
 }
 
 // rendering products
@@ -353,22 +375,6 @@ function renderTopProducts(toparr) {
 // save button for add product button
 //adding product to the product list (when Save button is clicked)
 const addProduct = () => {
-	// hide modal after save
-	var modal = document.getElementById('myModal');
-	modal.style.display = 'none';
-	body.style.overflow = 'auto';
-
-	// unactive background for all page
-	var pageNum = document.querySelectorAll('.pagination a');
-	pageNum.forEach((pageNo) => {
-		pageNo.style.backgroundColor = '#fff';
-		pageNo.style.color = '#303030';
-	});
-	// active background for first page
-	var pageNum1 = document.querySelectorAll('.pagination a')[0];
-	pageNum1.style.backgroundColor = 'red';
-	pageNum1.style.color = '#fff';
-
 	obj = {};
 	var e = document.getElementById('selectedCategory');
 	var category = e.options[e.selectedIndex].text;
@@ -380,33 +386,77 @@ const addProduct = () => {
 	var topProduct = document.getElementById('topProduct').checked;
 	obj['topProducts'] = topProduct;
 	var uploadFile = document.querySelector('input[type="file"]').files[0];
-	var image = URL.createObjectURL(uploadFile);
-	obj['uploadedImageSrc'] = image;
 
-	console.log(image);
-	console.log(category);
-	console.log(title);
-	console.log(price);
-	console.log(topProduct);
-
-	// console.log(obj);
-	if (topProduct === true) {
-		// remove all top product cards
-		var miniProductShow = document.querySelectorAll('.mini-product-show');
-		miniProductShow.forEach((element) => {
-			element.style.display = 'none';
-		});
-		alert('added to top products list');
-		topProductsArray.push(obj);
-		renderTopProducts(topProductsArray);
+	console.log(uploadFile);
+	if (uploadFile != undefined) {
+		var imgName = document.querySelector('.show-img-name');
+		imgName.innerHTML = uploadFile.name;
+	}
+	if (!title || !price || uploadFile == undefined) {
+		if (!title) {
+			document.getElementById('error-msg-title').innerHTML =
+				'Please Enter the Title';
+			// alert('no file added');
+		} else {
+			document.getElementById('error-msg-title').innerHTML = '';
+		}
+		if (!price) {
+			document.getElementById('error-msg-price').innerHTML =
+				'Please Enter the Price';
+		} else {
+			document.getElementById('error-msg-price').innerHTML = '';
+		}
+		if (uploadFile == undefined) {
+			document.getElementById('error-msg-file').innerHTML =
+				'Please Upload the file';
+		} else {
+			document.getElementById('error-msg-file').innerHTML = '';
+		}
 	} else {
-		// remove all product cards
-		var productcard = document.querySelectorAll('.product-card');
-		productcard.forEach((element) => {
-			element.style.display = 'none';
+		var image = URL.createObjectURL(uploadFile);
+		obj['uploadedImageSrc'] = image;
+
+		// hide modal after save
+		var modal = document.getElementById('myModal');
+		modal.style.display = 'none';
+		body.style.overflow = 'auto';
+
+		// unactive background for all page
+		var pageNum = document.querySelectorAll('.pagination a');
+		pageNum.forEach((pageNo) => {
+			pageNo.style.backgroundColor = '#fff';
+			pageNo.style.color = '#303030';
 		});
-		productsArray.push(obj);
-		renderProducts(productsArray);
+		// active background for first page
+		var pageNum1 = document.querySelectorAll('.pagination a')[0];
+		pageNum1.style.backgroundColor = 'red';
+		pageNum1.style.color = '#fff';
+
+		console.log(image);
+		console.log(category);
+		console.log(title);
+		console.log(price);
+		console.log(topProduct);
+
+		// console.log(obj);
+		if (topProduct === true) {
+			// remove all top product cards
+			var miniProductShow = document.querySelectorAll('.mini-product-show');
+			miniProductShow.forEach((element) => {
+				element.style.display = 'none';
+			});
+			alert('added to top products list');
+			topProductsArray.push(obj);
+			renderTopProducts(topProductsArray);
+		} else {
+			// remove all product cards
+			var productcard = document.querySelectorAll('.product-card');
+			productcard.forEach((element) => {
+				element.style.display = 'none';
+			});
+			productsArray.push(obj);
+			renderProducts(productsArray);
+		}
 	}
 };
 

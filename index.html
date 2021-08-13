@@ -48,6 +48,7 @@
 										type="text"
 										placeholder="Enter Product Tilte"
 									/>
+									<div id="error-msg-title" class="error-msg"></div>
 								</div>
 								<div class="product-price">
 									<div class="product-price-name">Price</div>
@@ -57,6 +58,7 @@
 										type="text"
 										placeholder="Enter Price"
 									/>
+									<div id="error-msg-price" class="error-msg"></div>
 								</div>
 								<div class="product-top">
 									<input id="topProduct" class="top-product" type="checkbox" />
@@ -67,7 +69,8 @@
 									<label class="custom-file-upload">
 										<input name="uploadImg" id="uploadedImage" type="file" />
 										Upload
-									</label>
+									</label><span class="show-img-name"></span>
+									<div id="error-msg-file" class="error-msg"></div>
 								</div>
 							</form>
 						</div>

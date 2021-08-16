@@ -118,6 +118,8 @@ window.onload = function () {
 	renderProducts(productsArray);
 	renderTopProducts(topProductsArray);
 
+	rangeCheck();
+
 	window.addEventListener('click', function (event) {
 		var modal = document.getElementById('myModal');
 		if (event.target == modal) {
@@ -336,6 +338,7 @@ function editProduct() {
 			element.style.display = 'none';
 		});
 		renderProducts(productsArray);
+		rangeCheck();
 		checkPagination();
 	}
 }
@@ -493,6 +496,7 @@ const addProduct = () => {
 			});
 			productsArray.push(obj);
 			renderProducts(productsArray);
+			rangeCheck();
 		}
 	}
 };
@@ -508,15 +512,22 @@ function sortByPrice() {
 	} else if (category == 2) {
 		priceLowToHigh();
 	} else {
-		console.log(category);
-		// remove all product cards
-		var productcard = document.querySelectorAll('.product-card');
-		productcard.forEach((element) => {
-			element.style.display = 'none';
-		});
-		console.log(productsArray);
-		renderProducts(productsArray);
+		defaultSorting();
 	}
+}
+
+function defaultSorting() {
+	// remove all product cards
+	var productcard = document.querySelectorAll('.product-card');
+	productcard.forEach((element) => {
+		element.style.display = 'none';
+	});
+	console.log(filterCategory);
+	const newarr = filterCategory.sort(function (a, b) {
+		return parseFloat(a.id) - parseFloat(b.id);
+	});
+	console.log(newarr);
+	renderProducts(newarr);
 }
 
 function priceLowToHigh() {
@@ -559,13 +570,35 @@ function priceHighToLow() {
 	}
 }
 
+function rangeCheck() {
+	// array of price
+	var priceArr = productsArray.map((costs) => {
+		return costs.price;
+	});
+	console.log(priceArr);
+	var max = Math.max(...priceArr);
+	console.log(max);
+
+	var priceRange = document.querySelector('.price-range b span');
+	var slider = document.getElementById('slider');
+
+	slider.value = max;
+	if (max != priceRange.innerHTML) {
+		priceRange.innerHTML = max;
+		slider.max = max;
+	}
+	console.log(slider);
+}
+
 function rangeSlider(el) {
 	console.log(el.value);
+
 	var priceRange = document.querySelector('.price-range b span');
 	priceRange.innerHTML = el.value;
 
 	rangeChanged(el.value);
 }
+var filterCategory = productsArray;
 
 function rangeChanged(val) {
 	// remove all product cards
@@ -575,15 +608,13 @@ function rangeChanged(val) {
 	});
 
 	var filterPrice = [];
-	productsArray.forEach((arr) => {
-		if (arr.price < val) {
+	filterCategory.forEach((arr) => {
+		if (arr.price <= val) {
 			filterPrice.push(arr);
 		}
 	});
 	renderProducts(filterPrice);
 }
-
-var filterCategory = productsArray;
 
 // filter array based on the chosen category
 const filterByCategory = (category) => {
@@ -604,5 +635,24 @@ const filterByCategory = (category) => {
 	filterCategory = temp;
 	console.log(filterCategory);
 	renderProducts(filterCategory);
+
+	// rangeCheck();
+	// array of price
+	var priceArr = filterCategory.map((costs) => {
+		return costs.price;
+	});
+	console.log(priceArr);
+	var max = Math.max(...priceArr);
+	console.log(max);
+
+	var priceRange = document.querySelector('.price-range b span');
+	var slider = document.getElementById('slider');
+
+	slider.value = max;
+	if (max != priceRange.innerHTML) {
+		priceRange.innerHTML = max;
+		slider.max = max;
+	}
+	console.log(slider);
 	// productsArray = filterCategory;
 };

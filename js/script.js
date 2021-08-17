@@ -66,7 +66,7 @@ var productsArray = [
 		id: 8,
 		productCategory: 'Misc',
 		productTitle: 'Poster Mockup',
-		price: 89.0,
+		price: 19.0,
 		topProducts: false,
 		sale: false,
 		uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
@@ -75,7 +75,7 @@ var productsArray = [
 		id: 9,
 		productCategory: 'Misc',
 		productTitle: 'Poster Mockup',
-		price: 89.0,
+		price: 20.0,
 		topProducts: false,
 		sale: false,
 		uploadedImageSrc: 'https://source.unsplash.com/400x300/?Poster',
@@ -534,8 +534,12 @@ function priceLowToHigh() {
 	productcard.forEach((element) => {
 		element.style.display = 'none';
 	});
-
-	if (filterCategory.length !== productsArray.length) {
+	if (rangeFilteredArray.length > 0) {
+		const newarr = rangeFilteredArray.sort(function (a, b) {
+			return parseFloat(a.price) - parseFloat(b.price);
+		});
+		renderProducts(newarr);
+	} else if (filterCategory.length !== productsArray.length) {
 		const newarr = filterCategory.sort(function (a, b) {
 			return parseFloat(a.price) - parseFloat(b.price);
 		});
@@ -554,8 +558,12 @@ function priceHighToLow() {
 	productcard.forEach((element) => {
 		element.style.display = 'none';
 	});
-
-	if (filterCategory.length !== productsArray.length) {
+	if (rangeFilteredArray.length > 0) {
+		const newarr = rangeFilteredArray.sort(function (a, b) {
+			return parseFloat(b.price) - parseFloat(a.price);
+		});
+		renderProducts(newarr);
+	} else if (filterCategory.length !== productsArray.length) {
 		const newarr = filterCategory.sort(function (a, b) {
 			return parseFloat(b.price) - parseFloat(a.price);
 		});
@@ -589,7 +597,7 @@ function rangeCheck() {
 	// }
 	console.log(slider);
 }
-
+var rangeFilteredArray = [];
 function rangeSlider(el) {
 	console.log(el.value);
 
@@ -627,7 +635,7 @@ function rangeSlider(el) {
 		pageNum1.style.backgroundColor = 'red';
 		pageNum1.style.color = '#fff';
 	}
-
+	rangeFilteredArray = filterPrice;
 	renderProducts(filterPrice);
 }
 

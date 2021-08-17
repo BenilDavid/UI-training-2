@@ -274,8 +274,6 @@ function productClicked(element) {
 			});
 			modalProductTitle.value = obj.productTitle;
 			modalProductPrice.value = obj.price;
-			// modalProductTitle.setAttribute('value', obj.productTitle);
-			// modalProductPrice.setAttribute('value', obj.price);
 		}
 	});
 	console.log(modalProductTitle);
@@ -318,7 +316,7 @@ function editProduct() {
 				var category = e.options[e.selectedIndex].text;
 				obj.productCategory = category;
 				obj.productTitle = title;
-				obj.price = price;
+				obj.price = parseInt(price);
 				obj.topProducts = topProduct;
 
 				if (uploadFile) {
@@ -421,7 +419,7 @@ const addProduct = () => {
 	var title = document.getElementById('title').value;
 	obj['productTitle'] = title;
 	var price = document.getElementById('price').value;
-	obj['price'] = price;
+	obj['price'] = parseInt(price);
 	var topProduct = document.getElementById('topProduct').checked;
 	obj['topProducts'] = topProduct;
 	var uploadFile = document.querySelector('input[type="file"]').files[0];
@@ -576,17 +574,19 @@ function rangeCheck() {
 		return costs.price;
 	});
 	console.log(priceArr);
+	// max = max price range
 	var max = Math.max(...priceArr);
-	console.log(max);
+	var maxx = parseInt(max);
+	console.log(maxx);
 
 	var priceRange = document.querySelector('.price-range b span');
 	var slider = document.getElementById('slider');
 
-	slider.value = max;
-	if (max != priceRange.innerHTML) {
-		priceRange.innerHTML = max;
-		slider.max = max;
-	}
+	slider.value = 0;
+	// if (max != priceRange.innerHTML) {
+	priceRange.innerHTML = maxx;
+	slider.max = maxx;
+	// }
 	console.log(slider);
 }
 
@@ -595,12 +595,8 @@ function rangeSlider(el) {
 
 	var priceRange = document.querySelector('.price-range b span');
 	priceRange.innerHTML = el.value;
-
-	rangeChanged(el.value);
-}
-var filterCategory = productsArray;
-
-function rangeChanged(val) {
+	var val = el.value;
+	// rangeChanged(el.value);
 	// remove all product cards
 	var productcard = document.querySelectorAll('.product-card');
 	productcard.forEach((element) => {
@@ -613,8 +609,29 @@ function rangeChanged(val) {
 			filterPrice.push(arr);
 		}
 	});
+	console.log(filterPrice);
+
+	if (filterPrice.length <= 9) {
+		// unactive background for all page
+		var pageNum = document.querySelectorAll('.pagination a');
+		pageNum.forEach((pageNo) => {
+			if (pageNo.innerHTML == 2) {
+				console.log(pageNo);
+				pageNo.style.display = 'none';
+			}
+			pageNo.style.backgroundColor = '#fff';
+			pageNo.style.color = '#303030';
+		});
+		// active background for first page
+		var pageNum1 = document.querySelectorAll('.pagination a')[0];
+		pageNum1.style.backgroundColor = 'red';
+		pageNum1.style.color = '#fff';
+	}
+
 	renderProducts(filterPrice);
 }
+
+var filterCategory = productsArray;
 
 // filter array based on the chosen category
 const filterByCategory = (category) => {
@@ -636,23 +653,23 @@ const filterByCategory = (category) => {
 	console.log(filterCategory);
 	renderProducts(filterCategory);
 
-	// rangeCheck();
 	// array of price
 	var priceArr = filterCategory.map((costs) => {
 		return costs.price;
 	});
 	console.log(priceArr);
 	var max = Math.max(...priceArr);
+	var maxx = parseInt(max);
 	console.log(max);
+	console.log(maxx);
 
 	var priceRange = document.querySelector('.price-range b span');
 	var slider = document.getElementById('slider');
-
-	slider.value = max;
-	if (max != priceRange.innerHTML) {
-		priceRange.innerHTML = max;
-		slider.max = max;
-	}
+	slider.value = 0;
+	priceRange.innerHTML = maxx;
+	slider.max = maxx;
 	console.log(slider);
+	// rangeCheck();
+
 	// productsArray = filterCategory;
 };

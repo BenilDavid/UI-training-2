@@ -634,6 +634,20 @@ function rangeSlider(el) {
 		var pageNum1 = document.querySelectorAll('.pagination a')[0];
 		pageNum1.style.backgroundColor = 'red';
 		pageNum1.style.color = '#fff';
+	} else {
+		var pageNum = document.querySelectorAll('.pagination a');
+		pageNum.forEach((pageNo) => {
+			if (pageNo.innerHTML == 2) {
+				console.log(pageNo);
+				pageNo.style.display = 'block';
+			}
+			pageNo.style.backgroundColor = '#fff';
+			pageNo.style.color = '#303030';
+		});
+		// active background for first page
+		var pageNum1 = document.querySelectorAll('.pagination a')[0];
+		pageNum1.style.backgroundColor = 'red';
+		pageNum1.style.color = '#fff';
 	}
 	rangeFilteredArray = filterPrice;
 	renderProducts(filterPrice);

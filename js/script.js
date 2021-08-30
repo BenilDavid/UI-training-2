@@ -104,7 +104,7 @@ filteredArray = productsArray;
 
 var topProductsArray = [
 	{
-		id: 1,
+		id: 0,
 		productCategory: 'Misc',
 		productTitle: 'Mug Mockup',
 		price: 99.0,
@@ -115,12 +115,14 @@ var topProductsArray = [
 
 var maxProductsPerPage = 9;
 var pageCount = 1;
-
+var current_page = 1;
+var per_page_items = 9;
 // onload rendering
 window.onload = function () {
-	renderProducts(productsArray);
+	// renderProducts(productsArray);
 	showTopProducts(topProductsArray);
 
+	loadPageNumber(paginator(filteredArray, current_page, per_page_items));
 	rangeCheck();
 
 	window.addEventListener('click', function (event) {
@@ -136,108 +138,6 @@ window.onload = function () {
 		}
 	});
 };
-
-// -------------------------- CHECK TO ADD PAGE ----------------------------
-
-function checkPagination() {
-	// need to work on this part
-	if (productsArray.length > maxProductsPerPage) {
-		pageCount++;
-		console.log(pageCount);
-		// if (filteredArray.length <= maxProductsPerPage) {
-		// 	// unactive background for all page number
-		// 	var allPageNumber = document.querySelectorAll('.page');
-		// 	allPageNumber.forEach((elmnt) => {
-
-		// 		elmnt.style.display = 'none';
-		// 	});
-		// 	// active background for clicked pageNumber
-		// 	var pageNum1 = document.querySelectorAll('.pagination .page')[0];
-		// 	// var page = document.querySelector('.page')[0];
-		// 	pageNum1.style.display = 'block';
-		// 	pageNum1.style.backgroundColor = 'red';
-		// 	pageNum1.style.color = '#fff';
-		// }
-		if (filteredArray.length > maxProductsPerPage) {
-			var pagination = document.querySelector('.pagination');
-			var pageNum = document.createElement('a');
-			pageNum.setAttribute('class', 'page');
-			pageNum.setAttribute('onclick', 'displayProducts(this)');
-			pageNum.textContent = 2;
-			pagination.appendChild(pageNum);
-		} else if (filteredArray.length > 2 * maxProductsPerPage) {
-			var pagination = document.querySelector('.pagination');
-			var pageNum = document.createElement('a');
-			pageNum.setAttribute('class', 'page');
-			pageNum.setAttribute('onclick', 'displayProducts(this)');
-			pageNum.textContent = 3;
-			pagination.appendChild(pageNum);
-		}
-	}
-}
-
-// -------------------------- PAGE CLICKED ----------------------------
-
-// when page is clicked
-function displayProducts(element) {
-	// unactive background for all page number
-	var allPageNumber = document.querySelectorAll('.page');
-	allPageNumber.forEach((elmnt) => {
-		elmnt.style.backgroundColor = '#fff';
-		elmnt.style.color = '#303030';
-	});
-	// active background for clicked pageNumber
-	element.style.backgroundColor = 'red';
-	element.style.color = '#fff';
-
-	// remove all product cards
-	var productcard = document.querySelectorAll('.product-card');
-	productcard.forEach((element) => {
-		element.style.display = 'none';
-	});
-
-	filteredArray.map((e, index) => {
-		// if page number 1 is clicked
-		if (element.textContent == 1) {
-			if (index < maxProductsPerPage) {
-				showProducts(e);
-				// checkPagination();
-			}
-		}
-		// if page number 2 is clicked
-		else if (element.textContent == 2) {
-			if (index >= maxProductsPerPage && index < 2 * maxProductsPerPage) {
-				showProducts(e);
-				// checkPagination();
-			}
-		}
-	});
-
-	if (rangeFilteredArray.length > 0) {
-		// remove all product cards
-		var productcard = document.querySelectorAll('.product-card');
-		productcard.forEach((element) => {
-			element.style.display = 'none';
-		});
-		rangeFilteredArray.map((e, index) => {
-			// if page number 1 is clicked
-			if (element.textContent == 1) {
-				if (index < maxProductsPerPage) {
-					showProducts(e);
-					// checkPagination();
-				}
-			}
-
-			// if page number 2 is clicked
-			else if (element.textContent == 2) {
-				if (index >= maxProductsPerPage && index < 2 * maxProductsPerPage) {
-					showProducts(e);
-					// checkPagination();
-				}
-			}
-		});
-	}
-}
 
 // -------------------------- MODAL ----------------------------
 
@@ -299,7 +199,9 @@ function productClicked(element) {
 	var modalProductTitle = document.querySelector('#title');
 	var modalProductPrice = document.querySelector('#price');
 	var topProduct = document.getElementById('topProduct');
-	var clikedProductId = element.childNodes[3].childNodes[1].innerHTML;
+	var uploadFile = document.querySelector('input[type="file"]');
+
+	var clikedProductId = parseInt(element.childNodes[3].childNodes[1].innerHTML);
 	// changing the onclick function
 	save.setAttribute('onclick', 'editProduct()');
 
@@ -321,6 +223,8 @@ function productClicked(element) {
 			modalProductTitle.value = obj.productTitle;
 			modalProductPrice.value = obj.price;
 			topProduct.checked = obj.topProducts;
+			// var imgName = document.querySelector('.show-img-name');
+			// imgName.innerHTML = obj.uploadedImageSrc;
 		}
 	});
 }
@@ -334,6 +238,7 @@ function editProduct() {
 	var price = document.getElementById('price').value;
 	var topProduct = document.getElementById('topProduct');
 	var uploadFile = document.querySelector('input[type="file"]').files[0];
+	console.log(uploadFile);
 
 	if (!title || !price) {
 		if (!title) {
@@ -357,6 +262,7 @@ function editProduct() {
 
 		// var id = document.getElementById('productId');
 		var currentSelectedId = idarray[idarray.length - 1];
+
 		productsArray.forEach((obj) => {
 			if (obj.id == currentSelectedId) {
 				var category = e.options[e.selectedIndex].text;
@@ -368,13 +274,12 @@ function editProduct() {
 					var image = URL.createObjectURL(uploadFile);
 					obj.uploadedImageSrc = image;
 				}
-				if (obj.topProducts === true) {
+				if (obj.topProducts == true) {
 					// remove all top product cards
 					var miniProductShow = document.querySelectorAll('.mini-product-show');
 					miniProductShow.forEach((element) => {
 						element.style.display = 'none';
 					});
-					// alert('added to top products list');
 					topProductsArray.push(obj);
 					showTopProducts(topProductsArray);
 				} else {
@@ -383,22 +288,18 @@ function editProduct() {
 					miniProductShow.forEach((element) => {
 						element.style.display = 'none';
 					});
-					topProductsArray.splice(obj.id, 1);
+					var index = topProductsArray.indexOf(obj);
+					topProductsArray.splice(index, 1);
 					showTopProducts(topProductsArray);
 				}
-				// console.log(category);
-				// console.log(title);
-				// console.log(price);
-				// console.log(topProduct);
-				// console.log(obj);
 			}
 		});
-
 		var productcard = document.querySelectorAll('.product-card');
 		productcard.forEach((element) => {
 			element.style.display = 'none';
 		});
-		renderProducts(productsArray); //---------------------rendering
+		loadPageNumber(paginator(filteredArray, current_page, per_page_items));
+		// renderProducts(productsArray); //---------------------rendering
 		rangeCheck();
 		// checkPagination();
 	}
@@ -413,7 +314,6 @@ function renderProducts(arr) {
 			showProducts(e);
 		}
 	});
-	// checkPagination();
 }
 
 // -------------------------- HTML FOR PRODUCT CARD ----------------------------
@@ -460,18 +360,18 @@ function showTopProducts(toparr) {
 		topProductsShow.setAttribute('class', 'mini-product-show');
 		topProductsShowContainer.appendChild(topProductsShow);
 		let topProductDetails = `
-                            <img style="width: 70px;height:70px;" src="${e.uploadedImageSrc}" alt="" />
-							<div class="product-content">
-								<span class="mini-product-heading">${e.productTitle}</span>
-								<div class="star">
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-									<img src="images/star.png" alt="" />
-								</div>
-								<div class="mini-price">$${e.price}</div>
-							</div>
+			<img style="width: 70px;height:70px;" src="${e.uploadedImageSrc}" alt="" />
+			<div class="product-content">
+				<span class="mini-product-heading">${e.productTitle}</span>
+				<div class="star">
+					<img src="images/star.png" alt="" />
+					<img src="images/star.png" alt="" />
+					<img src="images/star.png" alt="" />
+					<img src="images/star.png" alt="" />
+					<img src="images/star.png" alt="" />
+				</div>
+				<div class="mini-price">$${e.price}</div>
+			</div>
         `;
 		topProductsShow.innerHTML = topProductDetails;
 	});
@@ -495,11 +395,11 @@ const addProduct = () => {
 	obj['topProducts'] = topProduct;
 	var uploadFile = document.querySelector('input[type="file"]').files[0];
 
-	console.log(uploadFile);
-	if (uploadFile != undefined) {
-		var imgName = document.querySelector('.show-img-name');
-		imgName.innerHTML = uploadFile.name;
-	}
+	// console.log(uploadFile);
+	// if (uploadFile != undefined) {
+	// 	var imgName = document.querySelector('.show-img-name');
+	// 	imgName.innerHTML = uploadFile.name;
+	// }
 	if (!title || !price || uploadFile == undefined) {
 		if (!title) {
 			document.getElementById('error-msg-title').innerHTML =
@@ -528,23 +428,8 @@ const addProduct = () => {
 		var body = document.getElementsByTagName('body')[0];
 		modal.style.display = 'none';
 		body.style.overflow = 'auto';
-
-		// unactive background for all page
-		var pageNum = document.querySelectorAll('.pagination .page');
-		pageNum.forEach((pageNo) => {
-			pageNo.style.backgroundColor = '#fff';
-			pageNo.style.color = '#303030';
-		});
-		// active background for first page
-		var pageNum1 = document.querySelectorAll('.pagination .page')[0];
-		pageNum1.style.backgroundColor = 'red';
-		pageNum1.style.color = '#fff';
-
-		// console.log(image);
-		// console.log(category);
-		// console.log(title);
-		// console.log(price);
-		// console.log(topProduct);
+		filteredArray = productsArray;
+		filterCategory = productsArray;
 
 		// console.log(obj);
 		if (topProduct === true) {
@@ -562,9 +447,11 @@ const addProduct = () => {
 				element.style.display = 'none';
 			});
 			productsArray.push(obj);
-			renderProducts(productsArray);
+			// renderProducts(productsArray);
+			loadPageNumber(paginator(filteredArray, current_page, per_page_items));
 			showTopProducts(topProductsArray); //---------------------rendering
-			checkPagination();
+			rangeCheck();
+			// checkPagination();
 		} else {
 			// remove all product cards
 			var productcard = document.querySelectorAll('.product-card');
@@ -572,9 +459,10 @@ const addProduct = () => {
 				element.style.display = 'none';
 			});
 			productsArray.push(obj);
-			renderProducts(productsArray); //---------------------rendering
+			loadPageNumber(paginator(filteredArray, current_page, per_page_items));
+			// renderProducts(productsArray); //---------------------rendering
 			rangeCheck();
-			checkPagination();
+			// checkPagination();
 		}
 	}
 };
@@ -604,19 +492,22 @@ function defaultSorting() {
 	});
 	if (rangeFilteredArray.length > 0) {
 		const newarr = filteredArray.sort(function (a, b) {
-			return parseFloat(a.price) - parseFloat(b.price);
+			return parseFloat(a.id) - parseFloat(b.id);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	} else if (filterCategory.length !== productsArray.length) {
 		const newarr = filteredArray.sort(function (a, b) {
 			return parseFloat(a.id) - parseFloat(b.id);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	} else {
 		const newarr = productsArray.sort(function (a, b) {
-			return parseFloat(a.price) - parseFloat(b.price);
+			return parseFloat(a.id) - parseFloat(b.id);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	}
 }
 
@@ -631,17 +522,20 @@ function priceLowToHigh() {
 		const newarr = filteredArray.sort(function (a, b) {
 			return parseFloat(a.price) - parseFloat(b.price);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	} else if (filterCategory.length !== productsArray.length) {
 		const newarr = filteredArray.sort(function (a, b) {
 			return parseFloat(a.price) - parseFloat(b.price);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	} else {
 		const newarr = productsArray.sort(function (a, b) {
 			return parseFloat(a.price) - parseFloat(b.price);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	}
 }
 
@@ -656,17 +550,20 @@ function priceHighToLow() {
 		const newarr = filteredArray.sort(function (a, b) {
 			return parseFloat(b.price) - parseFloat(a.price);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	} else if (filterCategory.length !== productsArray.length) {
 		const newarr = filteredArray.sort(function (a, b) {
 			return parseFloat(b.price) - parseFloat(a.price);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	} else {
 		const newarr = productsArray.sort(function (a, b) {
 			return parseFloat(b.price) - parseFloat(a.price);
 		});
-		renderProducts(newarr); //---------------------rendering
+		loadPageNumber(paginator(newarr, current_page, per_page_items));
+		// renderProducts(newarr); //---------------------rendering
 	}
 }
 
@@ -685,10 +582,8 @@ function rangeCheck() {
 	var slider = document.getElementById('slider');
 
 	slider.value = 0;
-	// if (max != priceRange.innerHTML) {
 	priceRange.innerHTML = maxx;
 	slider.max = maxx;
-	// }
 }
 
 var rangeFilteredArray = [];
@@ -696,7 +591,6 @@ function rangeSlider(el) {
 	var priceRange = document.querySelector('.price-range b span');
 	priceRange.innerHTML = el.value;
 	var val = el.value;
-	// rangeChanged(el.value);
 	// remove all product cards
 	var productcard = document.querySelectorAll('.product-card');
 	productcard.forEach((element) => {
@@ -709,38 +603,9 @@ function rangeSlider(el) {
 			filterPrice.push(arr);
 		}
 	});
-
-	if (filterPrice.length <= 9) {
-		// unactive background for all page
-		var pageNum = document.querySelectorAll('.pagination .page');
-		pageNum.forEach((pageNo) => {
-			if (pageNo.innerHTML == 2) {
-				pageNo.style.display = 'none';
-			}
-			pageNo.style.backgroundColor = '#fff';
-			pageNo.style.color = '#303030';
-		});
-		// active background for first page
-		var pageNum1 = document.querySelectorAll('.pagination .page')[0];
-		pageNum1.style.backgroundColor = 'red';
-		pageNum1.style.color = '#fff';
-	} else {
-		var pageNum = document.querySelectorAll('.pagination .page');
-		pageNum.forEach((pageNo) => {
-			if (pageNo.innerHTML == 2) {
-				// console.log(pageNo);
-				pageNo.style.display = 'block';
-			}
-			pageNo.style.backgroundColor = '#fff';
-			pageNo.style.color = '#303030';
-		});
-		// active background for first page
-		var pageNum1 = document.querySelectorAll('.pagination .page')[0];
-		pageNum1.style.backgroundColor = 'red';
-		pageNum1.style.color = '#fff';
-	}
 	filteredArray = filterPrice;
-	renderProducts(filteredArray); //---------------------rendering
+	loadPageNumber(paginator(filteredArray, current_page, per_page_items));
+	// renderProducts(filteredArray); //---------------------rendering
 }
 
 var filterCategory = productsArray;
@@ -764,48 +629,13 @@ const filterByCategory = (category) => {
 	});
 	filterCategory = temp;
 	filteredArray = filterCategory;
-	renderProducts(filteredArray); //---------------------rendering
+	loadPageNumber(paginator(filteredArray, current_page, per_page_items));
+	// renderProducts(filteredArray); //---------------------rendering
 
 	// var e = document.getElementById('selectedSort');
 	// var category = e.options[e.selectedIndex].value;
 	// console.log(category);
 	sortByPrice();
-
-	// ----------PAGINATION --------
-
-	// if products less than 9 highlight page 1
-	if (filteredArray.length <= 9) {
-		// unactive background for all page
-		var pageNum = document.querySelectorAll('.pagination .page');
-		pageNum.forEach((pageNo) => {
-			if (pageNo.innerHTML == 2) {
-				console.log(pageNo);
-				pageNo.style.display = 'none';
-			}
-			pageNo.style.backgroundColor = '#fff';
-			pageNo.style.color = '#303030';
-		});
-		// active background for first page
-		var pageNum1 = document.querySelectorAll('.pagination .page')[0];
-		pageNum1.style.backgroundColor = 'red';
-		pageNum1.style.color = '#fff';
-	}
-	// // if products more than 9 highlight page 1
-	// else {
-	// 	var pageNum = document.querySelectorAll('.pagination .page');
-	// 	pageNum.forEach((pageNo) => {
-	// 		if (pageNo.innerHTML == 2) {
-	// 			console.log(pageNo);
-	// 			pageNo.style.display = 'block';
-	// 		}
-	// 		pageNo.style.backgroundColor = '#fff';
-	// 		pageNo.style.color = '#303030';
-	// 	});
-	// 	// active background for first page
-	// 	var pageNum1 = document.querySelectorAll('.pagination .page')[0];
-	// 	pageNum1.style.backgroundColor = 'red';
-	// 	pageNum1.style.color = '#fff';
-	// }
 
 	// array of price
 	var priceArr = filterCategory.map((costs) => {
@@ -822,3 +652,88 @@ const filterByCategory = (category) => {
 	// rangeCheck();
 	// productsArray = filterCategory;
 };
+
+// ----------------------------------------- PAGINATION ------------------------------------
+
+// Paginate calculation function
+function paginator(items, current_page, per_page_items) {
+	let page = current_page || 1,
+		per_page = per_page_items || 10,
+		offset = (page - 1) * per_page,
+		paginatedItems = items.slice(offset).slice(0, per_page_items),
+		total_pages = Math.ceil(items.length / per_page);
+
+	return {
+		page: page,
+		per_page: per_page,
+		pre_page: page - 1 ? page - 1 : null,
+		next_page: total_pages > page ? page + 1 : null,
+		total: items.length,
+		total_pages: total_pages,
+		data: paginatedItems,
+	};
+}
+
+// Display Page Numbers Function
+function loadPageNumber(response) {
+	console.log(response);
+	$('.pagination').empty(); //Pageload pagination data empty and fulfil the data with response
+	for (let i = 1; i <= response.total_pages; i++) {
+		let page_li = "<div class='page' data-page='" + i + "'>" + i + '</div>';
+		$('.pagination').append(page_li);
+	}
+	$('.product-listing').empty(); //Pageload products data empty and fulfil the data with response
+	for (let i = 0; i < response.data.length; i++) {
+		let temp_products = `
+		<div class="product-card" onclick="productClicked(this)">
+		<div class="product-image">
+                ${
+									response.data[i].sale === true
+										? '<button class="product-sale">sale</button>'
+										: ''
+								}
+                <img
+                    src="${response.data[i].uploadedImageSrc}"
+                    alt=""
+                />
+            </div>
+            <div class="product-details">
+				<span id="productId" style="display: none">${response.data[i].id}</span>
+                <div class="product-name">${response.data[i].productTitle}</div>
+                <div class="product-price">$${response.data[i].price}</div>
+            <div/>
+			<div/>`;
+
+		$('.product-listing').append(temp_products);
+	}
+	$('.pagination .page').click(function (e) {
+		//Onclick pagination function
+		e.preventDefault();
+		let new_response = paginator(filteredArray, $(this).data('page'), 9);
+		$('.product-listing').empty();
+		for (let i = 0; i < new_response.data.length; i++) {
+			let temp_products = `
+		<div class="product-card" onclick="productClicked(this)">
+		<div class="product-image">
+                ${
+									new_response.data[i].sale === true
+										? '<button class="product-sale">sale</button>'
+										: ''
+								}
+                <img
+                    src="${new_response.data[i].uploadedImageSrc}"
+                    alt=""
+                />
+            </div>
+            <div class="product-details">
+				<span id="productId" style="display: none">${new_response.data[i].id}</span>
+                <div class="product-name">${
+									new_response.data[i].productTitle
+								}</div>
+                <div class="product-price">$${new_response.data[i].price}</div>
+            <div/>
+			<div/>`;
+			$('.product-listing').append(temp_products);
+		}
+	});
+}

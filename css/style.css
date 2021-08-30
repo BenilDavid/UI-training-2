@@ -1092,6 +1092,11 @@ body {
   color: #303030;
 }
 
+.main .container .main-product-listing .pagination .page:hover {
+  background-color: red;
+  color: #fff;
+}
+
 .main .container .main-product-listing .pagination .active {
   background-color: red;
   color: #fff;

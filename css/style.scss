@@ -207,10 +207,7 @@ a {
 						background-repeat: no-repeat;
 						background-position: right 8% bottom 50%;
 						background-size: 15px;
-						// option {
-						// 	height: 30px;
-						// 	padding: 10px 0px;
-						// }
+
 						option {
 							font-size: 1.2em;
 						}
@@ -255,8 +252,7 @@ a {
 					@media (max-width: 500px) {
 						margin-top: 10px;
 					}
-					// .top-product {
-					// }
+
 					.product-top-name {
 						font-weight: 500;
 						font-size: 1em;
@@ -634,6 +630,10 @@ body {
 					margin: 0px 5px;
 					text-decoration: none;
 					color: #303030;
+					&:hover {
+						background-color: red;
+						color: #fff;
+					}
 				}
 				.active {
 					background-color: red;

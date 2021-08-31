@@ -288,8 +288,14 @@ function editProduct() {
 					miniProductShow.forEach((element) => {
 						element.style.display = 'none';
 					});
-					var index = topProductsArray.indexOf(obj);
-					topProductsArray.splice(index, 1);
+					topProductsArray.forEach((topObj) => {
+						console.log(topObj);
+						if (topObj == obj) {
+							var index = topProductsArray.indexOf(obj);
+							topProductsArray.splice(index, 1);
+						}
+					});
+
 					showTopProducts(topProductsArray);
 				}
 			}

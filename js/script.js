@@ -199,8 +199,8 @@ function productClicked(element) {
 	var modalProductTitle = document.querySelector('#title');
 	var modalProductPrice = document.querySelector('#price');
 	var topProduct = document.getElementById('topProduct');
-	var uploadFile = document.querySelector('input[type="file"]');
-
+	var uploadFile = document.querySelector('input[type="file"]').files[0];
+	var uploadFileValue = document.querySelector('input[type="file"]');
 	var clikedProductId = parseInt(element.childNodes[3].childNodes[1].innerHTML);
 	// changing the onclick function
 	save.setAttribute('onclick', 'editProduct()');
@@ -223,10 +223,10 @@ function productClicked(element) {
 			modalProductTitle.value = obj.productTitle;
 			modalProductPrice.value = obj.price;
 			topProduct.checked = obj.topProducts;
-			// var imgName = document.querySelector('.show-img-name');
-			// imgName.innerHTML = obj.uploadedImageSrc;
+			uploadFileValue.value = '';
 		}
 	});
+	// console.log(uploadFile.files.value);
 }
 
 // -------------------------- SAVE: EDIT PRODUCT CARD ----------------------------
@@ -422,6 +422,8 @@ const addProduct = () => {
 	} else {
 		var image = URL.createObjectURL(uploadFile);
 		obj['uploadedImageSrc'] = image;
+		// console.log(image);
+		// URL.revokeObjectURL(image);
 
 		// hide modal after save
 		var modal = document.getElementById('myModal');

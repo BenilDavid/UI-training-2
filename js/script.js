@@ -280,7 +280,11 @@ function editProduct() {
 					miniProductShow.forEach((element) => {
 						element.style.display = 'none';
 					});
-					topProductsArray.push(obj);
+					const result = topProductsArray.filter((topobj) => topobj == obj);
+					console.log(result);
+					if (result.length == 0) {
+						topProductsArray.push(obj);
+					}
 					showTopProducts(topProductsArray);
 				} else {
 					// remove all top product cards
